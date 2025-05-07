@@ -44,16 +44,30 @@ function updateRow() {
 function checkGuess() {
   const row = board.children[currentRow];
   const guessArray = currentGuess.split("");
+  const wordArray = WORD.split("");
+  const matchedIndices = new Array(5).fill(false); // Track matched letters in WORD
 
+  // First pass: Check for correct letters in the correct position
   for (let i = 0; i < 5; i++) {
     const tile = row.children[i];
     const letter = guessArray[i];
 
     if (letter === WORD[i]) {
       tile.classList.add("correct");
-    } else if (WORD.includes(letter)) {
+      matchedIndices[i] = true; // Mark this letter as matched
+      wordArray[i] = null; // Remove matched letter from consideration
+    }
+  }
+
+  // Second pass: Check for correct letters in the wrong position
+  for (let i = 0; i < 5; i++) {
+    const tile = row.children[i];
+    const letter = guessArray[i];
+
+    if (!tile.classList.contains("correct") && wordArray.includes(letter)) {
       tile.classList.add("present");
-    } else {
+      wordArray[wordArray.indexOf(letter)] = null; // Remove matched letter from consideration
+    } else if (!tile.classList.contains("correct")) {
       tile.classList.add("absent");
     }
   }

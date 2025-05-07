@@ -8,6 +8,20 @@ body {
     height: 100vh;
     margin: 0;
   }
+
+  .layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+  }
+  
+  .side-img {
+    width: 120px;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+  }
   
   #game-board {
     display: grid;
