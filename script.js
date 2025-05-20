@@ -1,10 +1,12 @@
-const WORD = "APPLE"; // Zielwort (immer 5 Buchstaben, Großbuchstaben)
+const WORD = "APPLE";
 let currentRow = 0;
 let currentGuess = "";
+let gameOver = false;
 
 const board = document.getElementById("game-board");
+const message = document.getElementById("message");
 
-// Board erstellen
+// Spielfeld erstellen
 for (let i = 0; i < 6; i++) {
   const row = document.createElement("div");
   row.className = "row";
@@ -16,9 +18,9 @@ for (let i = 0; i < 6; i++) {
   board.appendChild(row);
 }
 
-// Tastatureingabe
+// Tastatur-Ereignisse
 document.addEventListener("keydown", (e) => {
-  if (currentRow >= 6) return;
+  if (gameOver || currentRow >= 6) return;
   const key = e.key.toUpperCase();
 
   if (key === "BACKSPACE") {
@@ -45,39 +47,49 @@ function checkGuess() {
   const row = board.children[currentRow];
   const guessArray = currentGuess.split("");
   const wordArray = WORD.split("");
-  const matchedIndices = new Array(5).fill(false); // Track matched letters in WORD
+  const tileStates = new Array(5).fill("absent");
 
-  // First pass: Check for correct letters in the correct position
+  // Zuerst "correct"
   for (let i = 0; i < 5; i++) {
-    const tile = row.children[i];
-    const letter = guessArray[i];
-
-    if (letter === WORD[i]) {
-      tile.classList.add("correct");
-      matchedIndices[i] = true; // Mark this letter as matched
-      wordArray[i] = null; // Remove matched letter from consideration
+    if (guessArray[i] === WORD[i]) {
+      tileStates[i] = "correct";
+      wordArray[i] = null;
     }
   }
 
-  // Second pass: Check for correct letters in the wrong position
+  // Dann "present"
   for (let i = 0; i < 5; i++) {
-    const tile = row.children[i];
-    const letter = guessArray[i];
-
-    if (!tile.classList.contains("correct") && wordArray.includes(letter)) {
-      tile.classList.add("present");
-      wordArray[wordArray.indexOf(letter)] = null; // Remove matched letter from consideration
-    } else if (!tile.classList.contains("correct")) {
-      tile.classList.add("absent");
+    if (tileStates[i] === "correct") continue;
+    const idx = wordArray.indexOf(guessArray[i]);
+    if (idx !== -1) {
+      tileStates[i] = "present";
+      wordArray[idx] = null;
     }
   }
 
-  if (currentGuess === WORD) {
-    setTimeout(() => alert("Gewonnen!"), 100);
-  } else if (currentRow === 5) {
-    setTimeout(() => alert("Verloren! Das Wort war: " + WORD), 100);
-  }
+  // Flip-Animation nacheinander
+  guessArray.forEach((letter, i) => {
+    const tile = row.children[i];
+    tile.textContent = letter;
+    setTimeout(() => {
+      tile.classList.add("flip");
+      tile.classList.add(tileStates[i]);
+    }, i * 300);
+  });
 
-  currentGuess = "";
-  currentRow++;
+  setTimeout(() => {
+    if (currentGuess === WORD) {
+      showMessage("🎉 Gewonnen!");
+      gameOver = true;
+    } else if (currentRow === 5) {
+      showMessage("Das Wort war: " + WORD);
+      gameOver = true;
+    }
+    currentGuess = "";
+    currentRow++;
+  }, 5 * 300 + 500);
+}
+
+function showMessage(msg) {
+  message.textContent = msg;
 }
