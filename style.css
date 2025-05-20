@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 :root {
   --background: #181a20;
-  --surface: #23262f;
+  --surface: #c69cce;
   --primary: #7f5af0;
   --accent: #2cb67d;
   --warning: #ffb86b;
@@ -13,7 +13,8 @@
 }
 
 body {
-  background: linear-gradient(135deg, #181a20 0%, #23262f 100%);
+  background: url('https://i.ebayimg.com/images/g/ZIIAAOSwk9xemK7t/s-l1200.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
   margin: 0;
@@ -47,7 +48,6 @@ p {
   background: var(--surface);
   padding: 24px 18px;
   border-radius: 18px;
-  box-shadow: 0 4px 32px 0 #00000040;
 }
 
 .row {
@@ -106,8 +106,7 @@ p {
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--primary);
-  background: #23262f;
+  background: #be87cb;
   padding: 12px 24px;
   border-radius: 8px;
-  box-shadow: 0 2px 12px 0 #00000030;
 }

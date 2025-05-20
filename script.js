@@ -1,4 +1,4 @@
-const WORD = "POLEG";
+const WORD = "SINAH";
 let currentRow = 0;
 let currentGuess = "";
 let gameOver = false;
@@ -82,7 +82,9 @@ function checkGuess() {
       showMessage("🎉 Gewonnen!");
       gameOver = true;
     } else if (currentRow === 5) {
-      showMessage(" 😢 Verloren!");
+      showMessage(" 😢 Verloren!"
+
+      );
       gameOver = true;
     }
     currentGuess = "";
