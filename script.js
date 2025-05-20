@@ -1,4 +1,4 @@
-const WORD = "APPLE";
+const WORD = "POLEG";
 let currentRow = 0;
 let currentGuess = "";
 let gameOver = false;
@@ -82,7 +82,7 @@ function checkGuess() {
       showMessage("🎉 Gewonnen!");
       gameOver = true;
     } else if (currentRow === 5) {
-      showMessage("Das Wort war: " + WORD);
+      showMessage(" 😢 Verloren!");
       gameOver = true;
     }
     currentGuess = "";
